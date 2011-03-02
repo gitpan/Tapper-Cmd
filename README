@@ -1,0 +1,15 @@
+Tapper-Cmd
+
+This is a backend project for all projects that manipulate test runs or
+preconditions in the database. These projects should not access the database
+directly and instead use the methods offered by Tapper-DB. This project is
+not to be mistaken with Tapper-Schema.
+
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2009 OSRC SysInt Team
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+

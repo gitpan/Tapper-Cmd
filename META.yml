@@ -1,0 +1,29 @@
+---
+abstract: 'Tapper - Backend functions for CLI and Web'
+author:
+  - 'AMD OSRC Tapper Team, C<< <tapper at amd64.org> >>'
+  - 'AMD OSRC Tapper Team <tapper@amd64.org>'
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+  Test::More: 0
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
+distribution_type: module
+generated_by: 'Module::Install version 1.00'
+license: freebsd
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Tapper-Cmd
+no_index:
+  directory:
+    - inc
+    - t
+    - xt
+requires:
+  Kwalify: 0
+  MooseX::Declare: 0
+  Tapper::Model: 3.000001
+  YAML::Syck: 0
+  perl: 5.010
+version: 3.000001
