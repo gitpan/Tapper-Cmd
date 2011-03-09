@@ -3,6 +3,7 @@ package Tapper::Cmd::Testplan;
 use Moose;
 use Tapper::Model 'model';
 use YAML::Syck;
+use 5.010;
 
 use parent 'Tapper::Cmd';
 
@@ -28,33 +29,58 @@ instances in the database.
 
 =cut
 
+=head2 get_module_for_type
+
+Get the name of the Tapper::Cmd module that is reponsible for a given
+type. The name of the module is optimized for the Tapper developer but
+the type given in the testplan should be telling for the testplan user.
+
+@param string - type
+
+@return string - name of the responsible module
+
+=cut
+
+sub get_module_for_type
+{
+        my ($self, $type) = @_;
+         given (lc($type)){
+                when('multitest') { return "Tapper::Cmd::Testrun"; }
+                default           { $type = ucfirst($type); return "Tapper::Cmd::$type"; }
+        }
+}
+
+
 =head2 add
 
 Add a new testplan instance to database and create the associated
 testruns. The function expects a string containing the evaluated test
 plan content and a path.
 
-@param string - plan content
-@param string - path
+@param    string - plan content
+@param    string - path
+@optparam string - name
 
 @return int - testplan instance id
 
 =cut
 
 sub add {
-        my ($self, $plan_content, $path) = @_;
+        my ($self, $plan_content, $path, $name) = @_;
 
-        my $instance = model('TestrunDB')->resultset('TestplanInstance')->new({evaluated_testplan => $plan_content, path => $path});
+        my $instance = model('TestrunDB')->resultset('TestplanInstance')->new({evaluated_testplan => $plan_content, 
+                                                                               path => $path, 
+                                                                               name => $name,
+                                                                              });
         $instance->insert;
 
         my @testrun_ids;
 
         my @plans = YAML::Syck::Load($plan_content);
         foreach my $plan (@plans) {
-                my $type = $plan->{type};
-                $type = ucfirst($type);
-                eval "use Tapper::Cmd::$type";
-                my $handler = "Tapper::Cmd::$type"->new();
+                my $module = $self->get_module_for_type($plan->{type});
+                eval "use $module";
+                my $handler = "$module"->new();
                 my @new_ids = $handler->create($plan->{description}, $instance->id);
                 push @testrun_ids, @new_ids;
         }

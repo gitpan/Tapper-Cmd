@@ -1,3 +1,12 @@
+2011-03-08 Steffen Schwigon <steffen.schwigon@amd.com>
+
+	* v3.0.2
+
+	* try to force YAML versions
+
+	* testplan element now called "multitest" and module/type mapping
+	  done internally
+
 2011-03-02  Steffen Schwigon  <steffen.schwigon@amd.com>
 
 	* v3.0

@@ -1,5 +1,5 @@
 ---
-type: testrun
+type: multitest
 description:
   requested_hosts_all:
   - bullock

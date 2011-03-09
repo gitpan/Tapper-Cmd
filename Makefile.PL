@@ -9,10 +9,10 @@ author   'AMD OSRC Tapper Team <tapper@amd64.org>';
 license  'freebsd';
 
 requires 'perl'                  => '5.010';
-requires 'Tapper::Model'         => "3.000001";
+requires 'Tapper::Model'         => "3.000002";
 requires 'Kwalify'               => 0;
 requires 'MooseX::Declare'       => 0;
-requires 'YAML::Syck'            => 0;
+requires 'YAML::Syck'            => "1.17";
 
 build_requires 'Test::More';
 
