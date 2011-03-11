@@ -18,5 +18,8 @@ build_requires 'Test::More';
 
 author_requires 'Module::Install::WriteAll';
 
+repository 'git://github.com/amd/Tapper-Cmd.git';
+bugtracker 'http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-Cmd';
+
 WriteAll;
 
