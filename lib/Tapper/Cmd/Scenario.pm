@@ -1,4 +1,10 @@
 package Tapper::Cmd::Scenario;
+BEGIN {
+  $Tapper::Cmd::Scenario::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Cmd::Scenario::VERSION = '4.0.1';
+}
 use Moose;
 
 use Tapper::Model 'model';
@@ -6,9 +12,37 @@ use Tapper::Model 'model';
 use parent 'Tapper::Cmd';
 
 
+
+
+
+sub add {
+        my ($self, $args) = @_;
+        my %args = %{$args};    # copy
+        my $scenario = model('TestrunDB')->resultset('Scenario')->new(\%args);
+        $scenario->insert;
+        return $scenario->id;
+}
+
+
+
+
+sub del {
+        my ($self, $id) = @_;
+        my $scenario = model('TestrunDB')->resultset('Scenario')->find($id);
+        $scenario->delete();
+        return 0;
+}
+
+1; # End of Tapper::Cmd::Testrun
+
+__END__
+=pod
+
+=encoding utf-8
+
 =head1 NAME
 
-Tapper::Cmd::Scenario - Backend functions for manipulation of scenario in the database
+Tapper::Cmd::Scenario
 
 =head1 SYNOPSIS
 
@@ -21,15 +55,15 @@ database on a higher level than that offered by Tapper::Schema.
     $bar->add($scenario);
     ...
 
-=head1 FUNCTIONS
+=head1 NAME
 
+Tapper::Cmd::Scenario - Backend functions for manipulation of scenario in the database
+
+=head1 FUNCTIONS
 
 =head2 add
 
 Add a new scenario to database.
-
-=cut
-
 
 =head2 add
 
@@ -39,18 +73,6 @@ Add a new scenario to database
 
 @return success - scenario id
 @return error   - undef
-
-=cut
-
-sub add {
-        my ($self, $args) = @_;
-        my %args = %{$args};    # copy
-        my $scenario = model('TestrunDB')->resultset('Scenario')->new(\%args);
-        $scenario->insert;
-        return $scenario->id;
-}
-        
-
 
 =head2 del
 
@@ -62,35 +84,17 @@ prevent confusion with the buildin delete function.
 @return success - 0
 @return error   - error string
 
-=cut
-
-sub del {
-        my ($self, $id) = @_;
-        my $scenario = model('TestrunDB')->resultset('Scenario')->find($id);
-        $scenario->delete();
-        return 0;
-}
-
-
-
-
 =head1 AUTHOR
 
-AMD OSRC Tapper Team, C<< <tapper at amd64.org> >>
+AMD OSRC Tapper Team <tapper@amd64.org>
 
-=head1 BUGS
+=head1 COPYRIGHT AND LICENSE
 
-Please report any bugs or feature requests to C<osrc-sysin at elbe.amd.com>, or through
-the web interface at L<https://osrc/bugs>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
 
+This is free software, licensed under:
 
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2008-2011 AMD OSRC Tapper Team, all rights reserved.
-
-This program is released under the following license: freebsd
+  The (two-clause) FreeBSD License
 
 =cut
 
-1; # End of Tapper::Cmd::Testrun

@@ -1,25 +1,67 @@
+
 use strict;
 use warnings;
 
-use inc::Module::Install;
+use 5.010;
 
-name     'Tapper-Cmd';
-all_from 'lib/Tapper/Cmd.pm';
-author   'AMD OSRC Tapper Team <tapper@amd64.org>';
-license  'freebsd';
+use ExtUtils::MakeMaker 6.30;
 
-requires 'perl'                  => '5.010';
-requires 'Tapper::Model' => "3.000010";
-requires 'Kwalify'               => 0;
-requires 'MooseX::Declare'       => 0;
-requires 'YAML::Syck'            => "1.17";
 
-build_requires 'Test::More';
 
-author_requires 'Module::Install::WriteAll';
+my %WriteMakefileArgs = (
+  "ABSTRACT" => "Tapper - Backend functions for CLI and Web",
+  "AUTHOR" => "AMD OSRC Tapper Team <tapper\@amd64.org>",
+  "BUILD_REQUIRES" => {
+    "Tapper::Schema::TestTools" => 0,
+    "Test::Deep" => 0,
+    "Test::Exception" => 0,
+    "Test::Fixture::DBIC::Schema" => 0,
+    "Test::More" => 0,
+    "strict" => 0,
+    "warnings" => 0
+  },
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30"
+  },
+  "DISTNAME" => "Tapper-Cmd",
+  "EXE_FILES" => [],
+  "LICENSE" => "open_source",
+  "NAME" => "Tapper::Cmd",
+  "PREREQ_PM" => {
+    "DateTime" => 0,
+    "Hash::Merge::Simple" => 0,
+    "Kwalify" => 0,
+    "Moose" => 0,
+    "Perl6::Junction" => 0,
+    "Tapper::Model" => 0,
+    "Try::Tiny" => 0,
+    "YAML::Syck" => 0,
+    "parent" => 0
+  },
+  "VERSION" => "4.0.1",
+  "test" => {
+    "TESTS" => "t/*.t"
+  }
+);
 
-repository 'git://github.com/amd/Tapper-Cmd.git';
-bugtracker 'http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-Cmd';
 
-WriteAll;
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
+  my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
+  my $pp = $WriteMakefileArgs{PREREQ_PM};
+  for my $mod ( keys %$br ) {
+    if ( exists $pp->{$mod} ) {
+      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod};
+    }
+    else {
+      $pp->{$mod} = $br->{$mod};
+    }
+  }
+}
+
+delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
+  unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
+
+WriteMakefile(%WriteMakefileArgs);
+
+
 

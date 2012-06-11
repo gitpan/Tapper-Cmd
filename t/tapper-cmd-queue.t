@@ -37,6 +37,18 @@ foreach my $queue_r ($queue_rs->all) {
         is($queue_r->runcount, $queue_r->priority, "Update queue / runcount queue ".$queue_r->name);
 }
 
+my $queue_result = model('TestrunDB')->resultset('Queue')->find($queue_id);
 
+$queue_result->is_deleted(0);
+$queue_result->active(1);
+
+$queue->del($queue_result->id);
+
+# update queue information;
+$queue_result = model('TestrunDB')->resultset('Queue')->find($queue_id);
+
+isa_ok($queue_result, 'Tapper::Schema::TestrunDB::Result::Queue', 'Queue exists after delete');
+is($queue_result->is_deleted, 1, 'Queue deleted by setting deleted flag');
+is($queue_result->active, 0, 'Queue no longer active');
 done_testing();
 

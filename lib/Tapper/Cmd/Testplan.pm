@@ -1,15 +1,88 @@
 package Tapper::Cmd::Testplan;
+BEGIN {
+  $Tapper::Cmd::Testplan::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Cmd::Testplan::VERSION = '4.0.1';
+}
 
 use Moose;
 use Tapper::Model 'model';
 use YAML::Syck;
 use 5.010;
+use Try::Tiny;
 
 use parent 'Tapper::Cmd';
 
+
+
+sub get_module_for_type
+{
+        my ($self, $type) = @_;
+         given (lc($type)){
+                when('multitest') { return "Tapper::Cmd::Testrun"; }
+                default           { $type = ucfirst($type); return "Tapper::Cmd::$type"; }
+        }
+}
+
+
+
+sub add {
+        my ($self, $plan_content, $path, $name) = @_;
+
+        my @plans = YAML::Syck::Load($plan_content);
+        # use Data::Dumper;
+        # print STDERR "plans: ".Dumper($plan_content);
+        # print STDERR "plans: ".Dumper(\@plans);
+
+        my $instance = model('TestrunDB')->resultset('TestplanInstance')->new({evaluated_testplan => $plan_content,
+                                                                               path => $path,
+                                                                               name => $name,
+                                                                              });
+        $instance->insert;
+
+        my @testrun_ids;
+        foreach my $plan (@plans) {
+                die "Missing plan type for the following testplan: \n".Dump($plan) unless $plan->{type};
+                my $module = $self->get_module_for_type($plan->{type});
+
+                try {
+                        eval "use $module";
+                } catch {
+                        die "Can not load '$module' to handle testplan of type $plan->{type}: $!";
+                };
+
+                my $handler = "$module"->new();
+                my @new_ids = $handler->create($plan->{description}, $instance->id);
+                push @testrun_ids, @new_ids;
+        }
+        return $instance->id;
+}
+
+
+
+sub update {
+        my ($self, $id, $args) = @_;
+}
+
+
+sub del {
+        my ($self, $id) = @_;
+        my $testplan = model('TestrunDB')->resultset('TestplanInstance')->find($id);
+        $testplan->delete();
+        return 0;
+}
+
+1; # End of Tapper::Cmd::Testplan
+
+__END__
+=pod
+
+=encoding utf-8
+
 =head1 NAME
 
-Tapper::Cmd::Testplan - Backend functions for manipluation of testplan instances in the database
+Tapper::Cmd::Testplan
 
 =head1 SYNOPSIS
 
@@ -25,9 +98,11 @@ instances in the database.
 
     ...
 
-=head1 FUNCTIONS
+=head1 NAME
 
-=cut
+Tapper::Cmd::Testplan - Backend functions for manipluation of testplan instances in the database
+
+=head1 FUNCTIONS
 
 =head2 get_module_for_type
 
@@ -38,18 +113,6 @@ the type given in the testplan should be telling for the testplan user.
 @param string - type
 
 @return string - name of the responsible module
-
-=cut
-
-sub get_module_for_type
-{
-        my ($self, $type) = @_;
-         given (lc($type)){
-                when('multitest') { return "Tapper::Cmd::Testrun"; }
-                default           { $type = ucfirst($type); return "Tapper::Cmd::$type"; }
-        }
-}
-
 
 =head2 add
 
@@ -63,70 +126,23 @@ plan content and a path.
 
 @return int - testplan instance id
 
-=cut
-
-sub add {
-        my ($self, $plan_content, $path, $name) = @_;
-
-        my $instance = model('TestrunDB')->resultset('TestplanInstance')->new({evaluated_testplan => $plan_content, 
-                                                                               path => $path, 
-                                                                               name => $name,
-                                                                              });
-        $instance->insert;
-
-        my @testrun_ids;
-
-        my @plans = YAML::Syck::Load($plan_content);
-        foreach my $plan (@plans) {
-                my $module = $self->get_module_for_type($plan->{type});
-                eval "use $module";
-                my $handler = "$module"->new();
-                my @new_ids = $handler->create($plan->{description}, $instance->id);
-                push @testrun_ids, @new_ids;
-        }
-        return $instance->id;
-}
-
+@throws die()
 
 =head2 update
 
-
-=cut
-
-sub update {
-        my ($self, $id, $args) = @_;
-}
-
 =head2 del
-
-
-=cut
-
-sub del {
-        my ($self, $id) = @_;
-        my $testplan = model('TestrunDB')->resultset('TestplanInstance')->find($id);
-        $testplan->delete();
-        return 0;
-}
-
 
 =head1 AUTHOR
 
-AMD OSRC Tapper Team, C<< <tapper at amd64.org> >>
+AMD OSRC Tapper Team <tapper@amd64.org>
 
-=head1 BUGS
+=head1 COPYRIGHT AND LICENSE
 
-Please report any bugs or feature requests to C<osrc-sysin at elbe.amd.com>, or through
-the web interface at L<https://osrc/bugs>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
 
+This is free software, licensed under:
 
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2008-2011 AMD OSRC Tapper Team, all rights reserved.
-
-This program is released under the following license: freebsd
+  The (two-clause) FreeBSD License
 
 =cut
 
-1; # End of Tapper::Cmd::Testplan

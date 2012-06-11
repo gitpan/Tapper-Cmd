@@ -1,3 +1,11 @@
+Revision history for Tapper-Cmd
+
+4.0.1     2012-06-11
+        - cmd for user management
+        - add listing of notifications
+        - delete queue by just setting deleted flag
+        - big Dist::Zilla roundhouse kick
+
 2011-04-07  Steffen Schwigon  <steffen.schwigon@amd.com>
 
 	* v3.0.10

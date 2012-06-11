@@ -1,6 +1,8 @@
 ---
 type: testrun
 description:
+  topic: Topic
+  queue: Kernel
   requested_hosts_all:
   - bullock
   - dickstone

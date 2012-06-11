@@ -142,6 +142,8 @@ for (my $i=1; $i<=2; $i++) {
 $testrun = model('TestrunDB')->resultset('Testrun')->find(shift @testruns);
 is($testrun->testrun_scheduling->requested_hosts->count, 2, "requested_host_any testrun with two requested hosts");
 is($testrun->preconditions, 6, "requested_host_any testrun has preconditions assigned");
+is($testrun->topic_name, 'Topic', 'Topic set from description');
+is($testrun->testrun_scheduling->queue->name, 'Kernel', 'Queue set from description');
 
 $testrun = model('TestrunDB')->resultset('Testrun')->find(shift @testruns);
 is($testrun->testrun_scheduling->requested_features->count, 2, "requested_features_any testrun with two requested features");

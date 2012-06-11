@@ -1,15 +1,36 @@
 package Tapper::Cmd;
+BEGIN {
+  $Tapper::Cmd::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Cmd::VERSION = '4.0.1';
+}
+# ABSTRACT: Tapper - Backend functions for CLI and Web
 
-=head1 NAME
-
-Tapper::Cmd - Tapper - Backend functions for CLI and Web
-
-=cut
 use Moose;
 
 use Tapper::Model 'model';
 
-our $VERSION = '3.000010';
+
+
+sub assign_preconditions
+{
+        my ($self, $testrun_id, @preconditions) = @_;
+        my $testrun = model('TestrunDB')->resultset('Testrun')->find($testrun_id);
+        return $testrun->assign_preconditions(@preconditions);
+
+}
+
+1; # End of Tapper::Cmd
+
+__END__
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+Tapper::Cmd - Tapper - Backend functions for CLI and Web
 
 =head1 SYNOPSIS
 
@@ -30,10 +51,6 @@ exist yet.
 
 =head1 FUNCTIONS
 
-=cut 
-
-
-
 =head2 assign_preconditions
 
 Assign a list of preconditions to a testrun. Both have to be given as valid
@@ -45,34 +62,17 @@ ids.
 @return success - 0
 @return error   - error string
 
-=cut
-
-sub assign_preconditions
-{
-        my ($self, $testrun_id, @preconditions) = @_;
-        my $testrun = model('TestrunDB')->resultset('Testrun')->find($testrun_id);
-        return $testrun->assign_preconditions(@preconditions);
-
-}
-
-
 =head1 AUTHOR
 
-AMD OSRC Tapper Team, C<< <tapper at amd64.org> >>
+AMD OSRC Tapper Team <tapper@amd64.org>
 
-=head1 BUGS
+=head1 COPYRIGHT AND LICENSE
 
-Please report any bugs or feature requests to C<osrc-sysin at elbe.amd.com>, or through
-the web interface at L<https://osrc/bugs>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
 
+This is free software, licensed under:
 
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2008-2011 AMD OSRC Tapper Team, all rights reserved.
-
-This program is released under the following license: freebsd
+  The (two-clause) FreeBSD License
 
 =cut
 
-1; # End of Tapper::Cmd
