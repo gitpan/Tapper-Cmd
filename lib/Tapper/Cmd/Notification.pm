@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Notification::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Cmd::Notification::VERSION = '4.0.1';
+  $Tapper::Cmd::Notification::VERSION = '4.1.0';
 }
 use Moose;
 
@@ -17,15 +17,15 @@ use parent 'Tapper::Cmd';
 sub get_user
 {
         my ($self, $data) = @_;
-        if (not $data->{user_id}) {
-                my $login = $data->{user_login} || $ENV{USER};
-                my $user = model('ReportsDB')->resultset('User')->search({login => $login})->first;
-                if (not $user) {
+        if (not $data->{owner_id}) {
+                my $login = $data->{owner_login} || $ENV{USER};
+                my $owner = model('ReportsDB')->resultset('Owner')->search({login => $login}, {rows => 1})->first;
+                if (not $owner) {
                         die "User '$login' does not exist in the database. Please create this user first.\n";
                 }
 
-                $data->{user_id} = $user->id;
-                delete $data->{user_login};
+                $data->{owner_id} = $owner->id;
+                delete $data->{owner_login};
         }
         return $data;
 }
@@ -107,7 +107,7 @@ notification subscriptions.
                    filter  => "testrun('id') == 23",
                    comment    => "Get back to work, testrun 23 is finished",
                    persist    => 0,
-                   user_login => 'anton',
+                   owner_login => 'anton',
                   };
     my $id = $subscription->add($details);
     $details->{filter} = "testrun('id') == 24";

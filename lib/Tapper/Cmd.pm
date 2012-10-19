@@ -1,9 +1,11 @@
 package Tapper::Cmd;
+# git description: v4.0.1-29-g740316e
+
 BEGIN {
   $Tapper::Cmd::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Cmd::VERSION = '4.0.1';
+  $Tapper::Cmd::VERSION = '4.1.0';
 }
 # ABSTRACT: Tapper - Backend functions for CLI and Web
 

@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Requested::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Cmd::Requested::VERSION = '4.0.1';
+  $Tapper::Cmd::Requested::VERSION = '4.1.0';
 }
 use Moose;
 
@@ -18,7 +18,7 @@ sub add_host {
         my ($self, $id, $hostname) = @_;
         my $hosts = model('TestrunDB')->resultset('Host')->search({name => $hostname});
         return if not $hosts->count;
-        my $host_id = $hosts->first->id;
+        my $host_id = $hosts->search({}, {rows => 1})->first->id;
         my $request = model('TestrunDB')->resultset('TestrunRequestedHost')->new({testrun_id => $id, host_id => $host_id});
         $request->insert();
         return $request->id;

@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Testplan::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Cmd::Testplan::VERSION = '4.0.1';
+  $Tapper::Cmd::Testplan::VERSION = '4.1.0';
 }
 
 use Moose;
@@ -61,16 +61,38 @@ sub add {
 
 
 
-sub update {
-        my ($self, $id, $args) = @_;
-}
-
 
 sub del {
         my ($self, $id) = @_;
         my $testplan = model('TestrunDB')->resultset('TestplanInstance')->find($id);
+        foreach my $testrun ($testplan->testruns->all) {
+                if ($testrun->testrun_scheduling->status eq 'running') {
+                        my $message = model('TestrunDB')->resultset('Message')->new({testrun_id => $testrun->id,
+                                                                                     type       => 'state',
+                                                                                     message    => {
+                                                                                                    state => 'quit',
+                                                                                                    error => 'Testplan cancelled'
+                                                                                                   }});
+                        $message->insert();
+                }
+                $testrun->testrun_scheduling->testrun->testplan_id(undef);
+                $testrun->testrun_scheduling->testrun->update;
+                $testrun->testrun_scheduling->status('finished');
+                $testrun->testrun_scheduling->update;
+        }
         $testplan->delete();
         return 0;
+}
+
+
+sub rerun
+{
+        my ($self, $id) = @_;
+
+        my $testplan = model('TestrunDB')->resultset('TestplanInstance')->find($id);
+        die "No testplan with ID $id\n" unless $testplan;
+
+        return $self->add($testplan->evaluated_testplan, $testplan->path, $testplan->name);
 }
 
 1; # End of Tapper::Cmd::Testplan
@@ -128,9 +150,28 @@ plan content and a path.
 
 @throws die()
 
-=head2 update
-
 =head2 del
+
+Delete testrun with given id from database. Please not that this does
+not remove the associated testruns.
+
+@param int - testplan instance id
+
+@return success - 0
+@return error - exception
+
+@throws die()
+
+=head2 rerun
+
+Reapply the evaluated testplan of the given testplan instance.
+
+@param int - testplan instance id
+
+@return success - new testplan id
+@return error   - exception
+
+@throws die()
 
 =head1 AUTHOR
 

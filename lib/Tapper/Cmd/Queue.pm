@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Queue::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Cmd::Queue::VERSION = '4.0.1';
+  $Tapper::Cmd::Queue::VERSION = '4.1.0';
 }
 use Moose;
 
@@ -21,7 +21,9 @@ sub add {
         my ($self, $args) = @_;
         my %args = %{$args};    # copy
 
-        my $q = model('TestrunDB')->resultset('Queue')->new(\%args);
+        $args{is_deleted} = 0;
+
+        my $q = model('TestrunDB')->resultset('Queue')->update_or_create(\%args);
         $q->insert;
         my $all_queues = model('TestrunDB')->resultset('Queue');
         foreach my $queue ($all_queues->all) {
@@ -51,11 +53,20 @@ sub update {
 
 
 sub del {
-        my ($self, $id) = @_;
+        my ($self, $id, $force) = @_;
         my $queue = model('TestrunDB')->resultset('Queue')->find($id);
         $queue->is_deleted(1);
         $queue->active(0);
         $queue->update;
+        my $attached_jobs = $queue->testrunschedulings->search({status => 'schedule'});
+        while (my $job = $attached_jobs->next) {
+                $job->status('finished');
+                $job->update;
+        }
+
+        # empty queues can be deleted, because it does not break anything
+        $queue->delete if $queue->testrunschedulings->count == 0;
+
         return 0;
 }
 
@@ -115,10 +126,13 @@ Changes values of an existing queue.
 
 =head2 del
 
-Delete a queue with given id. Its named del instead of delete to
-prevent confusion with the buildin delete function.
+Delete a queue with given id. Its named del instead of delete to prevent
+confusion with the buildin delete function. If the queue is not empty
+and force is not given, we keep the queue and only set it to deleted to
+not break showing old testruns and their results.
 
-@param int - queue id
+@param int  - queue id
+@param bool - force deleted
 
 @return success - 0
 @return error   - error string

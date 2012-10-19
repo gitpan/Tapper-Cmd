@@ -35,8 +35,8 @@ my $content = {login => "anton2",
                             }]
               };
 
-my $user_id = $cmd->add($content);
-ok(defined($user_id), 'Adding user');
+my $owner_id = $cmd->add($content);
+ok(defined($owner_id), 'Adding user');
 
 my @users = $cmd->list();
 my $expected_users = [
@@ -80,7 +80,7 @@ $expected_users = [
 is_deeply(\@users, $expected_users, 'Contact information added');
 
 
-$cmd->del($user_id);
+$cmd->del($owner_id);
 @users = $cmd->list();
 $expected_users = [
                       {

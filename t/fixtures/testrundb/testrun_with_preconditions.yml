@@ -1,8 +1,8 @@
 ---
 
-# -------------------- users
+# -------------------- owners
 
-- schema: User
+- schema: Owner
   name: sschwigo
   data:
     id: 12
@@ -24,16 +24,25 @@
   name: perfmon
   data:
     id: 23
-    owner_user_id: 12
+    owner_id: 12
     shortname: perfmon
     notes: perfmon
     topic_name: Software
+
+- schema: TestrunScheduling
+  name: perfmon
+  data:
+    testrun_id: 23
+    queue_id: 1
+    status: finished
+    auto_rerun: 1
+
 
 - schema: Testrun
   name: lmbench
   data:
     id: 24
-    owner_user_id: 12
+    owner_id: 12
     shortname: lmbench
     notes: tapper test suite lmbench wrapper
     topic_name: Distribution

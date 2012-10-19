@@ -27,8 +27,8 @@ isa_ok($cmd, 'Tapper::Cmd::Testrun', '$testrun');
 #
 #######################################################
 
-my $user_id = Tapper::Model::get_or_create_user('sschwigo');
-is($user_id, 12, 'get user id for login');
+my $owner_id = Tapper::Model::get_or_create_owner('sschwigo');
+is($owner_id, 12, 'get owner id for login');
 
 
 #######################################################
@@ -52,7 +52,7 @@ my $testrun_args = {notes     => 'foo',
 my $testrun_id = $cmd->add($testrun_args);
 ok(defined($testrun_id), 'Adding testrun');
 my $testrun = model('TestrunDB')->resultset('Testrun')->search({id => $testrun_id})->first;
-my $retval = {owner       => $testrun->owner_user_id,
+my $retval = {owner       => $testrun->owner_id,
               notes       => $testrun->notes,
               shortname   => $testrun->shortname,
               topic       => $testrun->topic_name,
@@ -74,7 +74,7 @@ is($testrun_id_new, $testrun_id, 'Updated testrun without creating a new one');
 
 $testrun = model('TestrunDB')->resultset('Testrun')->search({id => $testrun_id})->first;
 $retval = {
-           owner       => $testrun->owner_user_id,
+           owner       => $testrun->owner_id,
            notes       => $testrun->notes,
            shortname   => $testrun->shortname,
            topic       => $testrun->topic_name,
@@ -95,12 +95,12 @@ isnt($testrun_id_new, $testrun_id, 'Rerun testrun with new id');
 $testrun        = model('TestrunDB')->resultset('Testrun')->find($testrun_id);
 my $testrun_new = model('TestrunDB')->resultset('Testrun')->find($testrun_id_new);
 
-$retval = { owner       => $testrun->owner_user_id,
+$retval = { owner       => $testrun->owner_id,
             notes       => $testrun->notes,
             shortname   => $testrun->shortname,
             topic       => $testrun->topic_name,
           };
-$testrun_args = {owner       => $testrun_new->owner_user_id,
+$testrun_args = {owner       => $testrun_new->owner_id,
                  notes       => $testrun_new->notes,
                  shortname   => $testrun_new->shortname,
                  topic       => $testrun_new->topic_name,

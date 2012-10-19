@@ -1,6 +1,6 @@
 #!perl
 
-use Test::More tests => 5;
+use Test::More tests => 6;
 
 BEGIN {
         use_ok( 'Tapper::Cmd' );
@@ -8,4 +8,5 @@ BEGIN {
         use_ok( 'Tapper::Cmd::Testplan' );
         use_ok( 'Tapper::Cmd::Precondition' );
         use_ok( 'Tapper::Cmd::Queue' );
+        use_ok( 'Tapper::Cmd::Cobbler' );
 }

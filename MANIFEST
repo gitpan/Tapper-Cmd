@@ -7,6 +7,7 @@ Makefile.PL
 README
 dist.ini
 lib/Tapper/Cmd.pm
+lib/Tapper/Cmd/Cobbler.pm
 lib/Tapper/Cmd/Notification.pm
 lib/Tapper/Cmd/Precondition.pm
 lib/Tapper/Cmd/Queue.pm

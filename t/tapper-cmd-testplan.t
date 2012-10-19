@@ -33,13 +33,19 @@ close $fh;
 my $testplan_id = $cmd->add($content, 'test.for.testplan.support');
 ok(defined($testplan_id), 'Adding testrun');
 
-
-
 my $testplan = model('TestrunDB')->resultset('TestplanInstance')->find($testplan_id);
 is($testplan->testruns->count, 4, 'Testruns for testplan created');
 
+my $rerun_id = $cmd->rerun($testplan_id);
+ok(defined($rerun_id), 'Rerun testplan');
 
 
+my $rerun_testplan = model('TestrunDB')->resultset('TestplanInstance')->find($rerun_id);
+
+is($rerun_testplan->testruns->count, $testplan->testruns->count, 'Rerun/ Number of testruns');
+is($rerun_testplan->name, $testplan->name, 'Rerun/ Name of testplan');
+is($rerun_testplan->path, $testplan->path, 'Rerun/ Path of testplan');
+isnt($rerun_testplan->id, $testplan->id, 'Rerun/ Path of testplan');
 
 #######################################################
 #

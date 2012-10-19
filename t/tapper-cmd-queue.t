@@ -47,8 +47,20 @@ $queue->del($queue_result->id);
 # update queue information;
 $queue_result = model('TestrunDB')->resultset('Queue')->find($queue_id);
 
-isa_ok($queue_result, 'Tapper::Schema::TestrunDB::Result::Queue', 'Queue exists after delete');
+is($queue_result, undef, 'Empty Queue deleted');
+
+$queue_id   = $queue->add({name => 'queue_with_jobs', priority => 100});
+my $job = model('TestrunDB')->resultset('TestrunScheduling')->first;
+$job->queue_id($queue_id); $job->update();
+$queue->del($queue_id);
+
+
+$queue_result = model('TestrunDB')->resultset('Queue')->find($queue_id);
+isa_ok($queue_result, 'Tapper::Schema::TestrunDB::Result::Queue', 'Nonempty queue exists after deleted');
 is($queue_result->is_deleted, 1, 'Queue deleted by setting deleted flag');
 is($queue_result->active, 0, 'Queue no longer active');
+my $queue_id_new = $queue->add({name => 'queue_with_jobs', priority => 100});
+is($queue_id_new, $queue_id, 'New on queue with deleted flag reactivated the existing one');
+
 done_testing();
 

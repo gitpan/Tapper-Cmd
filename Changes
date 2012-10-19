@@ -1,5 +1,23 @@
 Revision history for Tapper-Cmd
 
+4.1.0     2012-10-19
+        * PostgreSQL support
+        - [FIX] slow first() usage
+        - rename USER into OWNER
+
+        * Cobbler support
+        - [FEAT] host_update function
+        - [FEAT] host listing in Cobbler
+        - [FEAT] Cobbler database handling
+
+        * Misc
+        - [FEAT] testplan rerun
+        - [FIX] ALWAYS have an owner for testrun
+        - [FIX] finish testruns when testplan is deleted
+        - [FIX] deactivate jobs in deleted queue
+        - [FIX] New on queue with deleted flag reactivated the existing one
+        - [FIX] delete queue with/without jobs
+
 4.0.1     2012-06-11
         - cmd for user management
         - add listing of notifications

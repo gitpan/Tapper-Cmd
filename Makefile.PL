@@ -16,9 +16,7 @@ my %WriteMakefileArgs = (
     "Test::Deep" => 0,
     "Test::Exception" => 0,
     "Test::Fixture::DBIC::Schema" => 0,
-    "Test::More" => 0,
-    "strict" => 0,
-    "warnings" => 0
+    "Test::More" => 0
   },
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.30"
@@ -32,13 +30,17 @@ my %WriteMakefileArgs = (
     "Hash::Merge::Simple" => 0,
     "Kwalify" => 0,
     "Moose" => 0,
+    "Net::OpenSSH" => 0,
     "Perl6::Junction" => 0,
+    "Tapper::Config" => 0,
     "Tapper::Model" => 0,
     "Try::Tiny" => 0,
     "YAML::Syck" => 0,
-    "parent" => 0
+    "parent" => 0,
+    "strict" => 0,
+    "warnings" => 0
   },
-  "VERSION" => "4.0.1",
+  "VERSION" => "4.1.0",
   "test" => {
     "TESTS" => "t/*.t"
   }

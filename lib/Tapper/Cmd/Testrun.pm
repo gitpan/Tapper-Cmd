@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Testrun::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Cmd::Testrun::VERSION = '4.0.1';
+  $Tapper::Cmd::Testrun::VERSION = '4.1.0';
 }
 use Moose;
 use Tapper::Model 'model';
@@ -83,12 +83,12 @@ sub add {
         my $topic = model('TestrunDB')->resultset('Topic')->find_or_create({name => $args{topic_name}});
 
         $args{earliest}              ||= DateTime->now;
-        $args{owner}                 ||= $ENV{USER};
-        $args{owner_user_id}         ||= Tapper::Model::get_or_create_user( $args{owner} );
+        $args{owner}                 ||= $ENV{USER} || 'nobody';
+        $args{owner_id}              ||= Tapper::Model::get_or_create_owner( $args{owner} );
 
         if ($args{requested_hosts} and not $args{requested_host_ids}) {
                 foreach my $host (@{ref $args{requested_hosts} eq 'ARRAY' ? $args{requested_hosts} : [ $args{requested_hosts} ]}) {
-                        my $host_result = model('TestrunDB')->resultset('Host')->search({name => $host})->first;
+                        my $host_result = model('TestrunDB')->resultset('Host')->search({name => $host}, {rows => 1})->first;
                         push @{$args{requested_host_ids}}, $host_result->id if $host_result;
                 }
         }
@@ -97,7 +97,7 @@ sub add {
                 $args{queue}   ||= 'AdHoc';
                 my $queue_result = model('TestrunDB')->resultset('Queue')->search({name => $args{queue}});
                 die qq{Queue "$args{queue}" does not exists\n} if not $queue_result->count;
-                $args{queue_id}  = $queue_result->first->id;
+                $args{queue_id}  = $queue_result->search({}, {rows => 1})->first->id;
         }
         my $testrun_id = model('TestrunDB')->resultset('Testrun')->add(\%args);
 
@@ -119,7 +119,7 @@ sub update {
 
         my $testrun = model('TestrunDB')->resultset('Testrun')->find($id);
 
-        $args{owner_user_id}         = $args{owner_user_id}         || Tapper::Model::get_or_create_user( $args{owner} )          if $args{owner};
+        $args{owner_id} = $args{owner_id} || Tapper::Model::get_or_create_owner( $args{owner} ) if $args{owner};
 
         return $testrun->update_content(\%args);
 }
@@ -206,7 +206,7 @@ i.e. without creating a link between the new testruns and a test plan
 
 =head2 add
 
-Add a new testrun. Owner/owner_user_id and requested_hosts/requested_host_ids
+Add a new testrun. Owner/owner_id and requested_hosts/requested_host_ids
 allow to specify the associated value as id or string which will be converted
 to the associated id. If both values are given the id is used and the string
 is ignored. The function expects a hash reference with the following options:
@@ -221,7 +221,7 @@ or
 * date - DateTime
 * instance - int
 
-* owner_user_id - int
+* owner_id - int
 or
 * owner - string
 
@@ -242,7 +242,7 @@ the following options (at least one should be given):
 * shortname - string
 * topic     - string
 * date      - DateTime
-* owner_user_id - int
+* owner_id - int
 or
 * owner     - string
 

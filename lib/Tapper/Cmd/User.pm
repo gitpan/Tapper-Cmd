@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::User::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Cmd::User::VERSION = '4.0.1';
+  $Tapper::Cmd::User::VERSION = '4.1.0';
 }
 use Moose;
 
@@ -32,16 +32,16 @@ sub add
         }
 
 
-        my $user = model('ReportsDB')->resultset('User')->new($data);
-        $user->insert;
+        my $owner = model('ReportsDB')->resultset('Owner')->new($data);
+        $owner->insert;
 
         foreach my $contact (@{$contacts || []}) {
-                $contact->{user_id} = $user->id;
+                $contact->{owner_id} = $owner->id;
                 my $contact_result = model('ReportsDB')->resultset('Contact')->new($contact);
                 $contact_result->insert;
         }
 
-        return $user->id;
+        return $owner->id;
 }
 
 
@@ -49,14 +49,13 @@ sub list
 {
         my ($self, $search) = @_;
         my @users;
-        my $user_rs = model('ReportsDB')->resultset('User')->search($search);
-        while (my $user_result = $user_rs->next) {
-                my $user = { id => $user_result->id, name => $user_result->name, login => $user_result->login };
-                $user->{contacts} = [ map { { address => $_->address, protocol => $_->protocol } } $user_result->contacts->all ];
+        my $owner_rs = model('ReportsDB')->resultset('Owner')->search($search);
+        while (my $owner_result = $owner_rs->next) {
+                my $user = { id => $owner_result->id, name => $owner_result->name, login => $owner_result->login };
+                $user->{contacts} = [ map { { address => $_->address, protocol => $_->protocol } } $owner_result->contacts->all ];
                 push @users, $user;
         }
         return @users;
-
 }
 
 
@@ -65,14 +64,14 @@ sub list
 sub del
 {
         my ($self, $id) = @_;
-        my $user;
+        my $owner;
         if ($id =~ /^\d+$/) {
-                $user = model('ReportsDB')->resultset('User')->find($id);
+                $owner = model('ReportsDB')->resultset('Owner')->find($id);
         } else {
-                $user = model('ReportsDB')->resultset('User')->find({login => $id});
+                $owner = model('ReportsDB')->resultset('Owner')->find({login => $id});
         }
-        die qq(User "$id" not found) if not $user;;
-        $user->delete();
+        die qq(User "$id" not found) if not $owner;;
+        $owner->delete();
         return 0;
 }
 
@@ -84,20 +83,17 @@ sub contact_add
         $user //= $ENV{USER};
 
         if ( $user !~ m/^\d+$/ ) {
-                my $user_result = model('ReportsDB')->resultset('User')->find({login => $user});
-                die "User $user does not exist in database\n" if not $user_result;
-                $user = $user_result->id;
+                my $owner_result = model('ReportsDB')->resultset('Owner')->find({login => $user});
+                die "User $user does not exist in database\n" if not $owner_result;
+                $user = $owner_result->id;
         }
-        $data->{user_id} ||= $user;
+        $data->{owner_id} ||= $user;
 
         my $contact = model('ReportsDB')->resultset('Contact')->new($data);
         $contact->insert;
 
-
         return $contact->id;
 }
-
-
 
 
 1; # End of Tapper::Cmd::Testrun
@@ -180,13 +176,13 @@ login name.
 
 =head2 contact_add
 
-Add a contact to an existing user in reportsdb. Expects all details as a hash
+Add a contact to an existing owner in reportsdb. Expects all details as a hash
 reference.
 
-@param int|string - user as id or login
+@param int|string - owner as id or login
 @param hash ref   - contact data
 
-@return success - user id
+@return success - owner id
 @return error   - undef
 
 @throws Perl die

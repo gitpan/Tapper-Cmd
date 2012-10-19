@@ -23,7 +23,7 @@ isa_ok($notification, 'Tapper::Cmd::Notification');
 
 my $notification_id   = $notification->add({event      => "testrun_finished",
                                             filter  => "testrun('id') == 23",
-                                            user_login => 'anton',
+                                            owner_login => 'anton',
                                             comment    => "Day watch is watching you",
                                             persist    => 0
                                            });
@@ -34,7 +34,7 @@ is($notification_rs->count, 1, 'Insert notification / notification id returned')
 my $notification_id_updated = $notification->update($notification_id, {
                                                                        event      => "report_received",
                                                                        filter     => "updated condition",
-                                                                       user_login => 'alissa',
+                                                                       owner_login => 'alissa',
                                                                        comment    => "Night watch is watching you",
                                                                        persist    => 1,
                                                                       });
@@ -47,7 +47,7 @@ cmp_deeply($notification_hash, superhashof({
                                             'persist' => 1,
                                             'comment' => 'Night watch is watching you',
                                             'updated_at' => undef,
-                                            'user_id' => 2,
+                                            'owner_id' => 2,
                                             'id' => 4,
                                             'filter' => 'updated condition'
                                            }), 'Notification updated');
