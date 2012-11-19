@@ -1,9 +1,9 @@
 package Tapper::Cmd::Precondition;
 BEGIN {
-  $Tapper::Cmd::Precondition::AUTHORITY = 'cpan:AMD';
+  $Tapper::Cmd::Precondition::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Precondition::VERSION = '4.1.0';
+  $Tapper::Cmd::Precondition::VERSION = '4.1.1';
 }
 use Moose;
 

@@ -1,9 +1,9 @@
 package Tapper::Cmd::Testrun;
 BEGIN {
-  $Tapper::Cmd::Testrun::AUTHORITY = 'cpan:AMD';
+  $Tapper::Cmd::Testrun::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Testrun::VERSION = '4.1.0';
+  $Tapper::Cmd::Testrun::VERSION = '4.1.1';
 }
 use Moose;
 use Tapper::Model 'model';

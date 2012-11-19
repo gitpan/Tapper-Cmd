@@ -1,9 +1,9 @@
 package Tapper::Cmd::Cobbler;
 BEGIN {
-  $Tapper::Cmd::Cobbler::AUTHORITY = 'cpan:AMD';
+  $Tapper::Cmd::Cobbler::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Cobbler::VERSION = '4.1.0';
+  $Tapper::Cmd::Cobbler::VERSION = '4.1.1';
 }
 
 use warnings;
@@ -39,11 +39,18 @@ sub cobbler_execute
                 my $user = $cfg->{cobbler}->{user};
                 my $ssh = Net::OpenSSH->new("$user\@$cobbler_host");
                 $ssh->error and die "ssh  $user\@$cobbler_host failed: ".$ssh->error;
-                $output = $ssh->capture({ quote_args => 1 }, @command);
+                if (wantarray) {
+                        my @output = $ssh->capture({ quote_args => 1 }, @command);
+                        $ssh->error and die "Calling ".(join (" ",@command))." on $cobbler_host failed: ".$ssh->error;
+                        return @output;
+                } else {
+                        my $output = $ssh->capture({ quote_args => 1 }, @command);
+                        $ssh->error and die "Calling ".(join (" ",@command))." on $cobbler_host failed: ".$ssh->error;
+                        return $output;
+                }
         } else {
-                $output = qx( @command );
+                return qx( @command );
         }
-        return $output;
 }
 
 
@@ -52,6 +59,13 @@ sub host_new
         my ($self, $name, $options) = @_;
         my $default = $options->{default} || 'default';
 
+        return (join "",("Need a string as first argument in ",
+                          __FILE__,
+                          ", line ",
+                          __LINE__,
+                          ". You provided a ",
+                          ref $name))
+          if ref $name;
 
         my $host    = model('TestrunDB')->resultset('Host')->find({name => $name});
         return "Host '$name' does not exist in the database" if not $host;
@@ -94,6 +108,14 @@ sub host_list
 sub host_update
 {
         my ($self, $name, $options) = @_;
+
+        return (join "",("Need a string as first argument in ",
+                          __FILE__,
+                          ", line ",
+                          __LINE__,
+                          ". You provided a ",
+                          ref $name))
+          if ref $name;
 
         my @command  = qw/cobbler system edit --name/;
         push @command, $name;

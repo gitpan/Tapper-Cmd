@@ -1,9 +1,9 @@
 package Tapper::Cmd::Queue;
 BEGIN {
-  $Tapper::Cmd::Queue::AUTHORITY = 'cpan:AMD';
+  $Tapper::Cmd::Queue::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Queue::VERSION = '4.1.0';
+  $Tapper::Cmd::Queue::VERSION = '4.1.1';
 }
 use Moose;
 

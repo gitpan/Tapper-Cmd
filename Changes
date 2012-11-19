@@ -1,5 +1,9 @@
 Revision history for Tapper-Cmd
 
+4.1.1     2012-11-19
+        - new command: 'tapper init' to initialize a ~/.tapper
+        - inclusive a ~/.tapper/hello-world/ directory with examples
+
 4.1.0     2012-10-19
         * PostgreSQL support
         - [FIX] slow first() usage

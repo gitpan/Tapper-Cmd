@@ -1,9 +1,9 @@
 package Tapper::Cmd::Requested;
 BEGIN {
-  $Tapper::Cmd::Requested::AUTHORITY = 'cpan:AMD';
+  $Tapper::Cmd::Requested::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Requested::VERSION = '4.1.0';
+  $Tapper::Cmd::Requested::VERSION = '4.1.1';
 }
 use Moose;
 

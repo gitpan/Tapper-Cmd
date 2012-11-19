@@ -1,15 +1,17 @@
 package Tapper::Cmd;
-# git description: v4.0.1-29-g740316e
+# git description: v4.1.0-17-gf672487
 
 BEGIN {
-  $Tapper::Cmd::AUTHORITY = 'cpan:AMD';
+  $Tapper::Cmd::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::VERSION = '4.1.0';
+  $Tapper::Cmd::VERSION = '4.1.1';
 }
 # ABSTRACT: Tapper - Backend functions for CLI and Web
 
 use Moose;
+
+extends 'Tapper::Base';
 
 use Tapper::Model 'model';
 

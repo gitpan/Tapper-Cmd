@@ -1,9 +1,9 @@
 package Tapper::Cmd::Notification;
 BEGIN {
-  $Tapper::Cmd::Notification::AUTHORITY = 'cpan:AMD';
+  $Tapper::Cmd::Notification::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Notification::VERSION = '4.1.0';
+  $Tapper::Cmd::Notification::VERSION = '4.1.1';
 }
 use Moose;
 

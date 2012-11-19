@@ -1,9 +1,9 @@
 package Tapper::Cmd::Scenario;
 BEGIN {
-  $Tapper::Cmd::Scenario::AUTHORITY = 'cpan:AMD';
+  $Tapper::Cmd::Scenario::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Scenario::VERSION = '4.1.0';
+  $Tapper::Cmd::Scenario::VERSION = '4.1.1';
 }
 use Moose;
 
