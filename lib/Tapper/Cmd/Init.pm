@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Init::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Init::VERSION = '4.1.1';
+  $Tapper::Cmd::Init::VERSION = '4.1.2';
 }
 # ABSTRACT: Tapper - Backend functions for initially setting up Tapper
 
@@ -98,11 +98,21 @@ sub init
         my $HOME = $ENV{HOME};
         die "No home directory found.\n" unless $HOME && -d $HOME;
 
-        make_subdir my $init_dir = "$HOME/.tapper";
-        make_subdir my $logs_dir = "$HOME/.tapper/logs";
+        make_subdir my $init_dir     = "$HOME/.tapper";
+        make_subdir my $run_dir      = "$HOME/.tapper/run";
+        make_subdir my $log_dir      = "$HOME/.tapper/logs";
+        make_subdir my $out_dir      = "$HOME/.tapper/output";
+        make_subdir my $repo_dir     = "$HOME/.tapper/repository";
+        make_subdir my $img_dir      = "$HOME/.tapper/repository/images";
+        make_subdir my $pkg_dir      = "$HOME/.tapper/repository/packages";
+        make_subdir my $prg_dir      = "$HOME/.tapper/testprogram";
+        make_subdir my $testplan_dir = "$HOME/.tapper/testplans";
         copy_subdir ($init_dir, "hello-world");
+        copy_subdir ($init_dir, "testplans/topic");
+        copy_subdir ($init_dir, "testplans/include");
         mint_file ($init_dir, "tapper.cfg");
         mint_file ($init_dir, "log4perl.cfg");
+        mint_file ($init_dir, "tapper-mcp-messagereceiver.conf");
 
         dbdeploy;
 }

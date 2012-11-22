@@ -26,6 +26,7 @@ my %WriteMakefileArgs = (
   "LICENSE" => "open_source",
   "NAME" => "Tapper::Cmd",
   "PREREQ_PM" => {
+    "Cwd" => 0,
     "DBI" => 0,
     "DateTime" => 0,
     "File::Copy::Recursive" => 0,
@@ -39,6 +40,7 @@ my %WriteMakefileArgs = (
     "Tapper::Base" => 0,
     "Tapper::Config" => 0,
     "Tapper::Model" => 0,
+    "Tapper::Reports::DPath::TT" => 0,
     "Tapper::Schema::ReportsDB" => 0,
     "Tapper::Schema::TestrunDB" => 0,
     "Try::Tiny" => 0,
@@ -47,7 +49,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "4.1.1",
+  "VERSION" => "4.1.2",
   "test" => {
     "TESTS" => "t/*.t"
   }

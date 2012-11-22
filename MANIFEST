@@ -34,7 +34,16 @@ lib/auto/Tapper/Cmd/Init/hello-world/02-query-api/hello.mas
 lib/auto/Tapper/Cmd/Init/hello-world/02-query-api/hello.tt
 lib/auto/Tapper/Cmd/Init/hello-world/README.md
 lib/auto/Tapper/Cmd/Init/log4perl.cfg
+lib/auto/Tapper/Cmd/Init/tapper-mcp-messagereceiver.conf
 lib/auto/Tapper/Cmd/Init/tapper.cfg
+lib/auto/Tapper/Cmd/Init/testplans/include/defaultbenchmarks
+lib/auto/Tapper/Cmd/Init/testplans/include/defaults
+lib/auto/Tapper/Cmd/Init/testplans/include/distrodetails
+lib/auto/Tapper/Cmd/Init/testplans/topic/kernel/generic/test
+lib/auto/Tapper/Cmd/Init/testplans/topic/xen/generic/guest-start-template.sh
+lib/auto/Tapper/Cmd/Init/testplans/topic/xen/generic/guest-template.svm
+lib/auto/Tapper/Cmd/Init/testplans/topic/xen/generic/test
+lib/auto/Tapper/Cmd/Init/testplans/topic/xen/generic/upload-xen-dmesg.sh
 t/00-load.t
 t/fixtures/reportsdb/report.yml
 t/fixtures/testrundb/testrun_with_preconditions.yml
@@ -54,3 +63,5 @@ t/tapper-cmd-scenario.t
 t/tapper-cmd-testplan.t
 t/tapper-cmd-testrun.t
 t/tapper-cmd-user.t
+t/tapper_schema_reportsdb_test.sqlite
+t/tapper_schema_testrundb_test.sqlite

@@ -3,16 +3,19 @@ BEGIN {
   $Tapper::Cmd::Testplan::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Testplan::VERSION = '4.1.1';
+  $Tapper::Cmd::Testplan::VERSION = '4.1.2';
 }
 
-use Moose;
-use Tapper::Model 'model';
-use YAML::Syck;
 use 5.010;
-use Try::Tiny;
+use Moose;
 
-use parent 'Tapper::Cmd';
+use Cwd;
+use Try::Tiny;
+use YAML::Syck;
+use Tapper::Model 'model';
+use Tapper::Reports::DPath::TT;
+
+extends 'Tapper::Cmd';
 
 
 
@@ -95,6 +98,92 @@ sub rerun
         return $self->add($testplan->evaluated_testplan, $testplan->path, $testplan->name);
 }
 
+
+sub parse_path
+{
+        my ($self, $filename) = @_;
+        $filename = Cwd::abs_path($filename);
+        my $basedir = Tapper::Config->subconfig->{paths}{testplan_path};
+        # splitting filename at basedir returns an array with the empty
+        # string before and the path after the basedir
+        my $path = (split $basedir, $filename)[1];
+        return $path;
+}
+
+
+sub get_shortname{
+        my ($self, $plan, $name) = @_;
+        return $name if $name;
+
+        foreach my $line (split "\n", $plan) {
+                if ($line =~/^###\s*(?:short)?name\s*:\s*(.+)$/i) {
+                        return $1;
+                }
+        }
+        return;
+}
+
+
+sub testplannew {
+        my ($self, $opt) = @_;
+
+        use File::Slurp 'slurp';
+
+        my $file = $opt->{file};
+
+        my $plan = slurp($file);
+        $plan = $self->apply_macro($plan, $opt->{D}, $opt->{include});
+
+        if ($opt->{guide}) {
+                my $guide = $plan;
+                my @guide = grep { m/^###/ } split (qr/\n/, $plan);
+                say "Self-documentation:";
+                say map { my $l = $_; $l =~ s/^###/ /; "$l\n" } @guide;
+                return 0;
+        }
+
+        my $cmd = Tapper::Cmd::Testplan->new;
+        my $path = $opt->{path} || $self->parse_path($opt->{file});
+        my $shortname = $self->get_shortname($plan, $opt->{name});
+
+        if ($opt->{dryrun}) {
+                say $plan;
+                return 0;
+        }
+
+        my $plan_id = $cmd->add($plan, $path, $shortname);
+        die "Plan not created" unless defined $plan_id;
+
+        if ($opt->{verbose}) {
+                my $url = Tapper::Config->subconfig->{base_url} || 'http://tapper/tapper';
+                say "Plan created";
+                say "  id:   $plan_id";
+                say "  url:  $url/testplan/id/$plan_id";
+                say "  path: $path";
+                say "  file: ".$opt->{file};
+        } else {
+                say $plan_id;
+        }
+        return 0;
+}
+
+
+sub apply_macro
+{
+        my ($self, $macro, $substitutes, $includes) = @_;
+
+        my @include_paths = (Tapper::Config->subconfig->{paths}{testplan_path});
+        push @include_paths, @{$includes || [] };
+        my $include_path_list = join ":", @include_paths;
+
+        my $tt = Tapper::Reports::DPath::TT->new(include_path => $include_path_list,
+                                                 substitutes  => $substitutes,
+                                                );
+        return $tt->render_template($macro);
+}
+
+
+
 1; # End of Tapper::Cmd::Testplan
 
 __END__
@@ -172,6 +261,40 @@ Reapply the evaluated testplan of the given testplan instance.
 @return error   - exception
 
 @throws die()
+
+=head2 parse_path
+
+Get the test plan path from the filename. This is a little more tricky
+since we do not simply want the dirname but kind of an "un-prefix".
+
+@param string - file name
+
+@return string - test plan path
+
+=head2 get_shortname
+
+Get the shortname for this testplan. The shortname is either given as
+command line option or inside the plan text.
+
+@param string - plan text
+@param string - value of $opt->{name}
+
+@return string - shortname
+
+=head2 testplannew
+
+Create a testplan instance from a file.
+
+=head2 apply_macro
+
+Process macros and substitute using Template::Toolkit.
+
+@param string  - contains macros
+@param hashref - containing substitutions
+@optparam string - path to more include files
+
+@return success - text with applied macros
+@return error   - die with error string
 
 =head1 AUTHOR
 
