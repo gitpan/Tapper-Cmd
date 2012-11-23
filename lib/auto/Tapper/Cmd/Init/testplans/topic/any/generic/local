@@ -1,0 +1,76 @@
+[%#- -*- mode: tt -*- %]
+[%- PROCESS 'include/defaults' -%]
+[% USE Autoformat %]
+[%- IF machine     != '' %][% THROW LEGACY "Use '-Dmachines=...' (plural).\n" %][% END -%]
+[%- IF queue       == '' %][% queue          = 'AdHoc' %][% END -%]
+[%- IF tests_host  == '' %][% tests_host     = '/home/ss5/.tapper/hello-world/03-controlfiles/run-hello-world-tests.sh' %][% END -%]
+[%- IF machines    == '' %][% machines       = 'einstein' %][% END -%]
+[%- shorttitle_test_host = BLOCK %][% IF tests_host.match(',') %]MULTI[% ELSE %][% tests_host.replace('.*/([^/]+)$', '$1').replace('^(xen|kvm)-','').replace('\.sh$','').replace('\.t$','').replace('[-_]','') %][% END %][% END -%]
+[%- IF title       == ''    %][% title          = BLOCK %]Any[%- IF shorttitle_test_host != '' %]-[% shorttitle_test_host %][% ELSE %][% END %][%- IF shorttitle_test_guest != '' %]-[% shorttitle_test_guest %][% END %][% END %][% END -%]
+[%- IF titlesuffix == ''    %][% titlesuffix = BLOCK %][%- IF shorttitle_benchmark_guest != '' %][% shorttitle_benchmark_guest %][% END %][% END %][% END -%]
+[%- AllMachines       = machines.split(',')       || [] -%]
+[%- AllTestsHost      = tests_host.split(',')     || [] -%]
+[% fullname = BLOCK %][% title %][% IF titlesuffix %]-[% titlesuffix %][% END %][% END %]
+###
+### Run a Xen environment with tests.
+### [topic.xen.generic.test]
+###
+###
+### Name   : [% fullname %]
+###
+### Optional params:
+###
+###   -Dtests_host=<testname>    Workload names, comma separated, see list below;         default: /PATH/TO/SCRIPT/SLEEPTEST.sh
+###   -Dmachines=<machine>       Machine names, comma separated;                          default: einstein
+###   -Dqueue=<queue>            Queue to use;                                            default: AdHoc
+###   -Dtitlesuffix=<string>     Suffix to be used in testplan and testrun names;         default: <empty>
+###
+###
+### Available values:
+###
+###   machines:
+[%- FILTER autoformat(all => 1) %]
+###      [% FOREACH m = machine_list -%][% m %], [% END %]
+[% END %]
+###   tests (tests_host, tests_guest):
+###      - non-path words are interpreted as Autotest subtests:
+###
+[%- FILTER autoformat(all => 1) %]
+###          [% FOREACH t = useful_autotest_tests -%][% t %], [% END %]
+[%- END -%]
+###      - absolute path names, like "/data/tapper/autoreport/mytest.t"
+###        are interpreted as script to execute (and every file inside
+###        that path/* will also be copied)
+###        
+###
+### Typical command lines (User tapper@tapper):
+###
+###   $ tapper-testrun newtestplan --file /data/tapper/live/testplan/topic/xen/generic/test
+###   $ tapper-testrun newtestplan --file /data/tapper/live/testplan/topic/xen/generic/test -Dtests_guest=hackbench
+###   $ tapper-testrun newtestplan --file /data/tapper/live/testplan/topic/xen/generic/test -Dmachines=machine1,machine2
+###   $ tapper-testrun newtestplan --file /data/tapper/live/testplan/topic/xen/generic/test -Dmachines=lemure -Dtests_host=hackbench
+###
+###
+###
+[%- FOREACH machine = AllMachines %]
+---
+type: multitest
+description:
+   shortname: "[% title %] - [% kernelpkg %]"
+   topic: [% benchmark %]
+   queue: [% queue %]
+   requested_hosts_all:
+        - [% machine %]
+   preconditions:
+[%- FOREACH test0 = AllTestsHost %]
+        - precondition_type: testprogram
+          program: [% test0 %]
+          parameters:
+            - 10
+          timeout: 20
+          capture: tap
+[% END -%][%# FOREACH AllTestsHost testprograms %]
+        - precondition_type: hint
+          skip_install: 1
+          local: 1
+[%- END %][%# FOREACH AllMachines %]

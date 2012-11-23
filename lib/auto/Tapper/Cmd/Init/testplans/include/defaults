@@ -6,7 +6,7 @@
 [%- Xen_machines = ['limete','arges', 'gawaine'] %]
 [%- builder_list = [ '40', '40pv', '41', '41pv', '4u', '4us', '4ubd', '4upv', '4uspv', 'osvw', '41vmcb', '4uvmcb', '4udecode', '34', '33', '32', '31' ] %]
 [%- kernel_builder_list = [ 'linus', 'tip', 'stable', 'stable2-*', 'stable3-*', 'longterm-*' ] %]
-[%- machine_list = [ 'foo', 'bar', 'baz' ] %]
+[%- machine_list = [ 'localhost', 'foo', 'bar' ] %]
 [%- all_autotest_tests = ['qemu_iotests', 'iperf', 'linus_stress',
                      'iosched_bugs', 'fsstress', 'sparse', 'sysbench',
                      'dbench', 'fsfuzzer', 'ipv6connect', 'stress',

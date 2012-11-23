@@ -32,6 +32,8 @@ lib/auto/Tapper/Cmd/Init/hello-world/02-query-api/benchmarks-gnuplot.tt
 lib/auto/Tapper/Cmd/Init/hello-world/02-query-api/benchmarks.tt
 lib/auto/Tapper/Cmd/Init/hello-world/02-query-api/hello.mas
 lib/auto/Tapper/Cmd/Init/hello-world/02-query-api/hello.tt
+lib/auto/Tapper/Cmd/Init/hello-world/03-controlfiles/local-start-test.sh
+lib/auto/Tapper/Cmd/Init/hello-world/03-controlfiles/run-hello-world-tests.sh
 lib/auto/Tapper/Cmd/Init/hello-world/README.md
 lib/auto/Tapper/Cmd/Init/log4perl.cfg
 lib/auto/Tapper/Cmd/Init/tapper-mcp-messagereceiver.conf
@@ -39,6 +41,7 @@ lib/auto/Tapper/Cmd/Init/tapper.cfg
 lib/auto/Tapper/Cmd/Init/testplans/include/defaultbenchmarks
 lib/auto/Tapper/Cmd/Init/testplans/include/defaults
 lib/auto/Tapper/Cmd/Init/testplans/include/distrodetails
+lib/auto/Tapper/Cmd/Init/testplans/topic/any/generic/local
 lib/auto/Tapper/Cmd/Init/testplans/topic/kernel/generic/test
 lib/auto/Tapper/Cmd/Init/testplans/topic/xen/generic/guest-start-template.sh
 lib/auto/Tapper/Cmd/Init/testplans/topic/xen/generic/guest-template.svm

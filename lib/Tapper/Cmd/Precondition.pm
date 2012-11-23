@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Precondition::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Precondition::VERSION = '4.1.2';
+  $Tapper::Cmd::Precondition::VERSION = '4.1.3';
 }
 use Moose;
 

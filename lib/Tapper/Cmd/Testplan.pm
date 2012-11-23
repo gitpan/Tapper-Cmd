@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Testplan::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Testplan::VERSION = '4.1.2';
+  $Tapper::Cmd::Testplan::VERSION = '4.1.3';
 }
 
 use 5.010;

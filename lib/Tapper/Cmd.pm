@@ -1,11 +1,11 @@
 package Tapper::Cmd;
-# git description: v4.1.1-5-g062612a
+# git description: v4.1.2-8-gc00c442
 
 BEGIN {
   $Tapper::Cmd::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::VERSION = '4.1.2';
+  $Tapper::Cmd::VERSION = '4.1.3';
 }
 # ABSTRACT: Tapper - Backend functions for CLI and Web
 

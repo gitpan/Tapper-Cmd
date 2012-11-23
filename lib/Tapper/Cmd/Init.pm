@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Init::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Init::VERSION = '4.1.2';
+  $Tapper::Cmd::Init::VERSION = '4.1.3';
 }
 # ABSTRACT: Tapper - Backend functions for initially setting up Tapper
 
@@ -50,7 +50,7 @@ sub copy_subdir {
 
         my $dir = "$init_dir/$dirname";
         if (-d $dir) {
-                say "SKIP    $dir - already exists";
+                say "SKIP    $dir/ - already exists";
         } else {
                 dircopy(module_dir('Tapper::Cmd::Init')."/$dirname", $dir);
                 say "CREATED $dir";
@@ -107,6 +107,7 @@ sub init
         make_subdir my $pkg_dir      = "$HOME/.tapper/repository/packages";
         make_subdir my $prg_dir      = "$HOME/.tapper/testprogram";
         make_subdir my $testplan_dir = "$HOME/.tapper/testplans";
+        make_subdir my $localdata_dir = "$HOME/.tapper/localdata";
         copy_subdir ($init_dir, "hello-world");
         copy_subdir ($init_dir, "testplans/topic");
         copy_subdir ($init_dir, "testplans/include");
