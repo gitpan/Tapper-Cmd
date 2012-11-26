@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Cobbler::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Cobbler::VERSION = '4.1.4';
+  $Tapper::Cmd::Cobbler::VERSION = '4.1.5';
 }
 
 use warnings;

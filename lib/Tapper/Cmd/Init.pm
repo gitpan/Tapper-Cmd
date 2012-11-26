@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Init::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Init::VERSION = '4.1.4';
+  $Tapper::Cmd::Init::VERSION = '4.1.5';
 }
 # ABSTRACT: Tapper - Backend functions for initially setting up Tapper
 

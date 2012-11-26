@@ -1,5 +1,8 @@
 Revision history for Tapper-Cmd
 
+4.1.5     2012-11-26
+        - exmaple testplans: fix default queues
+
 4.1.4     2012-11-26
         - polished backend testplan "topic.any.generic.local"
         - example frontend testplans "topic.helloworld.example*"
