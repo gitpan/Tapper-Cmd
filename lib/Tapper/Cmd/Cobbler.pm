@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Cobbler::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Cobbler::VERSION = '4.1.3';
+  $Tapper::Cmd::Cobbler::VERSION = '4.1.4';
 }
 
 use warnings;
@@ -132,6 +132,7 @@ sub host_update
 1; # End of Tapper::Cmd::Cobbler
 
 __END__
+
 =pod
 
 =encoding utf-8
@@ -238,4 +239,3 @@ This is free software, licensed under:
   The (two-clause) FreeBSD License
 
 =cut
-

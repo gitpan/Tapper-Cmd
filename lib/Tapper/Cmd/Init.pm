@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Init::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Init::VERSION = '4.1.3';
+  $Tapper::Cmd::Init::VERSION = '4.1.4';
 }
 # ABSTRACT: Tapper - Backend functions for initially setting up Tapper
 
@@ -53,7 +53,7 @@ sub copy_subdir {
                 say "SKIP    $dir/ - already exists";
         } else {
                 dircopy(module_dir('Tapper::Cmd::Init')."/$dirname", $dir);
-                say "CREATED $dir";
+                say "CREATED $dir/";
         }
 }
 
@@ -61,7 +61,7 @@ sub copy_subdir {
 sub make_subdir {
         my ($dir) = @_;
         if (-d $dir) {
-                say "SKIP    $dir - already exists";
+                say "SKIP    $dir/ - already exists";
         } else {
                 mkdir $dir or die "Can not create $dir\n";
                 say "CREATED $dir/";
@@ -106,11 +106,9 @@ sub init
         make_subdir my $img_dir      = "$HOME/.tapper/repository/images";
         make_subdir my $pkg_dir      = "$HOME/.tapper/repository/packages";
         make_subdir my $prg_dir      = "$HOME/.tapper/testprogram";
-        make_subdir my $testplan_dir = "$HOME/.tapper/testplans";
         make_subdir my $localdata_dir = "$HOME/.tapper/localdata";
         copy_subdir ($init_dir, "hello-world");
-        copy_subdir ($init_dir, "testplans/topic");
-        copy_subdir ($init_dir, "testplans/include");
+        copy_subdir ($init_dir, "testplans");
         mint_file ($init_dir, "tapper.cfg");
         mint_file ($init_dir, "log4perl.cfg");
         mint_file ($init_dir, "tapper-mcp-messagereceiver.conf");
@@ -121,6 +119,7 @@ sub init
 1;
 
 __END__
+
 =pod
 
 =encoding utf-8
@@ -174,4 +173,3 @@ This is free software, licensed under:
   The (two-clause) FreeBSD License
 
 =cut
-

@@ -1,0 +1,4 @@
+[%#- -*- mode: tt -*- %]
+[%- IF tests_host  == '' %][% tests_host     = "$HOME/.tapper/hello-world/03-controlfiles/run-hello-world-tests.sh" %][% END -%]
+[%- IF machines    == '' %][% machines       = 'einstein,hawking,newton' %][% END -%]
+[%- PROCESS 'topic/any/generic/local' -%]

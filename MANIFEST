@@ -42,6 +42,8 @@ lib/auto/Tapper/Cmd/Init/testplans/include/defaultbenchmarks
 lib/auto/Tapper/Cmd/Init/testplans/include/defaults
 lib/auto/Tapper/Cmd/Init/testplans/include/distrodetails
 lib/auto/Tapper/Cmd/Init/testplans/topic/any/generic/local
+lib/auto/Tapper/Cmd/Init/testplans/topic/helloworld/example01
+lib/auto/Tapper/Cmd/Init/testplans/topic/helloworld/example02
 lib/auto/Tapper/Cmd/Init/testplans/topic/kernel/generic/test
 lib/auto/Tapper/Cmd/Init/testplans/topic/xen/generic/guest-start-template.sh
 lib/auto/Tapper/Cmd/Init/testplans/topic/xen/generic/guest-template.svm

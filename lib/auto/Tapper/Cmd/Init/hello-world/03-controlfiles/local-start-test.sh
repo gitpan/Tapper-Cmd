@@ -2,7 +2,7 @@
 
 # This script shows how to initialize any test of type 'local'.
 #
-# This here is NOT the actual test but the starter of your test.
+# This here is NOT the actual test but the STARTER of your test.
 # Write such a script for your personal use-case, e.g.
 #
 #  - start a remote test on a machine via ssh to $TAPPER_HOSTNAME and

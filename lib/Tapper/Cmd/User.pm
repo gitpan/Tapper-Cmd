@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::User::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::User::VERSION = '4.1.3';
+  $Tapper::Cmd::User::VERSION = '4.1.4';
 }
 use Moose;
 
@@ -99,6 +99,7 @@ sub contact_add
 1; # End of Tapper::Cmd::Testrun
 
 __END__
+
 =pod
 
 =encoding utf-8
@@ -210,4 +211,3 @@ This is free software, licensed under:
   The (two-clause) FreeBSD License
 
 =cut
-

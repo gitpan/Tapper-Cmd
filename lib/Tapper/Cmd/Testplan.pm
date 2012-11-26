@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Testplan::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Testplan::VERSION = '4.1.3';
+  $Tapper::Cmd::Testplan::VERSION = '4.1.4';
 }
 
 use 5.010;
@@ -132,7 +132,12 @@ sub testplannew {
         my $file = $opt->{file};
 
         my $plan = slurp($file);
-        $plan = $self->apply_macro($plan, $opt->{D}, $opt->{include});
+        $plan = $self->apply_macro($plan,
+                                   {
+                                    HOME => $ENV{HOME},
+                                    %{$opt->{D} || {}},
+                                   },
+                                   $opt->{include});
 
         if ($opt->{guide}) {
                 my $guide = $plan;
@@ -187,6 +192,7 @@ sub apply_macro
 1; # End of Tapper::Cmd::Testplan
 
 __END__
+
 =pod
 
 =encoding utf-8
@@ -309,4 +315,3 @@ This is free software, licensed under:
   The (two-clause) FreeBSD License
 
 =cut
-

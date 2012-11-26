@@ -1,11 +1,11 @@
 package Tapper::Cmd;
-# git description: v4.1.2-8-gc00c442
+# git description: v4.1.3-6-ge639c6a
 
 BEGIN {
   $Tapper::Cmd::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::VERSION = '4.1.3';
+  $Tapper::Cmd::VERSION = '4.1.4';
 }
 # ABSTRACT: Tapper - Backend functions for CLI and Web
 
@@ -28,6 +28,7 @@ sub assign_preconditions
 1; # End of Tapper::Cmd
 
 __END__
+
 =pod
 
 =encoding utf-8
@@ -79,4 +80,3 @@ This is free software, licensed under:
   The (two-clause) FreeBSD License
 
 =cut
-

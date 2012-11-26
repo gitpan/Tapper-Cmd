@@ -1,5 +1,10 @@
 Revision history for Tapper-Cmd
 
+4.1.4     2012-11-26
+        - polished backend testplan "topic.any.generic.local"
+        - example frontend testplans "topic.helloworld.example*"
+        - testplans now provide a default [% HOME %] substitution
+
 4.1.3     2012-11-23
         - tapper init: more example programs in ~/.tapper/
           for new 'local' testruns

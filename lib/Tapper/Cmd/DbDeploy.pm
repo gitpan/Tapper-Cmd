@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::DbDeploy::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::DbDeploy::VERSION = '4.1.3';
+  $Tapper::Cmd::DbDeploy::VERSION = '4.1.4';
 }
 # ABSTRACT: Tapper - Backend functions for DB deployment
 
@@ -92,6 +92,7 @@ sub dbdeploy
 1;
 
 __END__
+
 =pod
 
 =encoding utf-8
@@ -142,4 +143,3 @@ This is free software, licensed under:
   The (two-clause) FreeBSD License
 
 =cut
-
