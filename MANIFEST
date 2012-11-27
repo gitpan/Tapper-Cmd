@@ -35,6 +35,7 @@ lib/auto/Tapper/Cmd/Init/hello-world/02-query-api/hello.tt
 lib/auto/Tapper/Cmd/Init/hello-world/03-controlfiles/local-start-test.sh
 lib/auto/Tapper/Cmd/Init/hello-world/03-controlfiles/run-hello-world-tests.sh
 lib/auto/Tapper/Cmd/Init/hello-world/README.md
+lib/auto/Tapper/Cmd/Init/hello-world/run-hello-world.sh
 lib/auto/Tapper/Cmd/Init/log4perl.cfg
 lib/auto/Tapper/Cmd/Init/tapper-mcp-messagereceiver.conf
 lib/auto/Tapper/Cmd/Init/tapper.cfg

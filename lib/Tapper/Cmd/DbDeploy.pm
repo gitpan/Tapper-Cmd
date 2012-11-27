@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::DbDeploy::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::DbDeploy::VERSION = '4.1.5';
+  $Tapper::Cmd::DbDeploy::VERSION = '4.1.6';
 }
 # ABSTRACT: Tapper - Backend functions for DB deployment
 

@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Scenario::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Scenario::VERSION = '4.1.5';
+  $Tapper::Cmd::Scenario::VERSION = '4.1.6';
 }
 use Moose;
 

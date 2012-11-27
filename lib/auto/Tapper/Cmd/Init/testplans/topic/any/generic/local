@@ -1,10 +1,11 @@
 [%#- -*- mode: tt -*- %]
 [%- PROCESS 'include/defaults' -%]
 [% USE Autoformat %]
-[%- IF machine     != '' %][% THROW LEGACY "Use '-Dmachines=...' (plural).\n" %][% END -%]
-[%- IF queue       == '' %][% queue          = 'AdHoc' %][% END -%]
-[%- IF tests_host  == '' %][% tests_host     = '/PATH/TO/STARTSCRIPT.sh' %][% END -%]
-[%- IF machines    == '' %][% machines       = 'einstein,hawking,turing' %][% END -%]
+[%- IF machine      != '' %][% THROW LEGACY "Use '-Dmachines=...' (plural).\n" %][% END -%]
+[%- IF queue        == '' %][% queue          = 'AdHoc' %][% END -%]
+[%- IF tests_host   == '' %][% tests_host     = '/PATH/TO/STARTSCRIPT.sh' %][% END -%]
+[%- IF test_timeout == '' %][% test_timeout  = '10800' %][% END -%]
+[%- IF machines     == '' %][% machines       = 'einstein,hawking,turing' %][% END -%]
 [%- shorttitle_test_host = BLOCK %][% IF tests_host.match(',') %]MULTI[% ELSE %][% tests_host.replace('.*/([^/]+)$', '$1').replace('^(xen|kvm|any)-','').replace('\.sh$','').replace('\.t$','').replace('[-_]','') %][% END %][% END -%]
 [%- IF title       == ''    %][% title          = BLOCK %]Starter[%- IF shorttitle_test_host != '' %]-[% shorttitle_test_host %][% ELSE %][% END %][%- IF shorttitle_test_guest != '' %]-[% shorttitle_test_guest %][% END %][% END %][% END -%]
 [%- IF titlesuffix == ''    %][% titlesuffix = BLOCK %][%- IF shorttitle_benchmark_guest != '' %][% shorttitle_benchmark_guest %][% END %][% END %][% END -%]
@@ -21,6 +22,7 @@
 ### Optional params:
 ###
 ###   -Dtests_host=<testname>    Starter scripts, comma separated;                 default: /PATH/TO/STARTSCRIPT.sh
+###   -Dtest_timeout=<seconds>   Timeout for tests;                                default: 10800 (3h)
 ###   -Dmachines=<machine>       Machine names, comma separated;                   default: einstein,hawking,turing
 ###   -Dqueue=<queue>            Queue to use;                                     default: AdHoc
 ###   -Dtitlesuffix=<string>     Suffix to be used in testplan and testrun names;  default: <empty>
@@ -62,9 +64,7 @@ description:
 [%- FOREACH test0 = AllTestsHost %]
         - precondition_type: testprogram
           program: [% test0 %]
-          parameters:
-            - 10
-          timeout: 20
+          timeout: [% test_timeout %]
           capture: tap
 [% END -%][%# FOREACH AllTestsHost testprograms %]
         - precondition_type: hint

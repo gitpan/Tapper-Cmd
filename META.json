@@ -76,7 +76,7 @@
          "web" : "http://github.com/tapper/Tapper-Cmd"
       }
    },
-   "version" : "4.1.5",
+   "version" : "4.1.6",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.016002"

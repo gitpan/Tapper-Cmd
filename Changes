@@ -1,5 +1,9 @@
 Revision history for Tapper-Cmd
 
+4.1.6     2012-11-27
+        - testplan 'local': add -Dtest_timeout
+        - new script to run all hello-world examples
+
 4.1.5     2012-11-26
         - exmaple testplans: fix default queues
 
