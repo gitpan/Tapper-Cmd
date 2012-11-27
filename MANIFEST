@@ -32,9 +32,10 @@ lib/auto/Tapper/Cmd/Init/hello-world/02-query-api/benchmarks-gnuplot.tt
 lib/auto/Tapper/Cmd/Init/hello-world/02-query-api/benchmarks.tt
 lib/auto/Tapper/Cmd/Init/hello-world/02-query-api/hello.mas
 lib/auto/Tapper/Cmd/Init/hello-world/02-query-api/hello.tt
-lib/auto/Tapper/Cmd/Init/hello-world/03-controlfiles/local-start-test.sh
-lib/auto/Tapper/Cmd/Init/hello-world/03-controlfiles/run-hello-world-tests.sh
 lib/auto/Tapper/Cmd/Init/hello-world/README.md
+lib/auto/Tapper/Cmd/Init/hello-world/controlfiles/local-start-test.sh
+lib/auto/Tapper/Cmd/Init/hello-world/controlfiles/run-hello-world-tests.sh
+lib/auto/Tapper/Cmd/Init/hello-world/macropreconditions/run-hello-world-tests.mpc
 lib/auto/Tapper/Cmd/Init/hello-world/run-hello-world.sh
 lib/auto/Tapper/Cmd/Init/log4perl.cfg
 lib/auto/Tapper/Cmd/Init/tapper-mcp-messagereceiver.conf

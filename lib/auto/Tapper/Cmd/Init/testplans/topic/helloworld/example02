@@ -1,5 +1,5 @@
 [%#- -*- mode: tt -*- %]
-[%- IF tests_host  == '' %][% tests_host     = "$HOME/.tapper/hello-world/03-controlfiles/local-start-test.sh" %][% END -%]
+[%- IF tests_host  == '' %][% tests_host     = "$HOME/.tapper/hello-world/controlfiles/local-start-test.sh" %][% END -%]
 [%- IF machines    == '' %][% machines       = 'ali,hug,dekkers' %][% END -%]
 [%- IF queue       == '' %][% queue          = 'arm' %][% END -%]
 [%- PROCESS 'topic/any/generic/local' -%]

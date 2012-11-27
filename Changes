@@ -1,8 +1,12 @@
 Revision history for Tapper-Cmd
 
+4.1.7     2012-11-27
+        - helloworld: add example macroprecondition
+        - helloworld: rename subdir 03-controlfiles -> controlfiles
+
 4.1.6     2012-11-27
+        - helloworld: new script to run all hello-world examples
         - testplan 'local': add -Dtest_timeout
-        - new script to run all hello-world examples
 
 4.1.5     2012-11-26
         - exmaple testplans: fix default queues

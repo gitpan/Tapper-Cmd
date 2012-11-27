@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Testrun::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Testrun::VERSION = '4.1.6';
+  $Tapper::Cmd::Testrun::VERSION = '4.1.7';
 }
 use Moose;
 use Tapper::Model 'model';

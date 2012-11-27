@@ -19,7 +19,7 @@ start_a_test () {
     echo "# Starting testrun '$_testrun'"
     source $HOME/.tapper/hello-world/00-set-environment/local-tapper-env.inc
     cd $HOME/.tapper/hello-world/01-executing-tests/
-    for t in $(find t/basic/ -name "example-01-basic.t") ; do $t ; done
+    for t in $(find t/) ; do $t ; done
     return 0 # SUCCESS
 }
 
