@@ -1,11 +1,11 @@
 package Tapper::Cmd;
-# git description: v4.1.6-4-g42526a4
+# git description: v4.1.7-11-g912c933
 
 BEGIN {
   $Tapper::Cmd::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::VERSION = '4.1.7';
+  $Tapper::Cmd::VERSION = '4.1.8';
 }
 # ABSTRACT: Tapper - Backend functions for CLI and Web
 
@@ -73,7 +73,7 @@ AMD OSRC Tapper Team <tapper@amd64.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+This software is Copyright (c) 2013 by Advanced Micro Devices, Inc..
 
 This is free software, licensed under:
 

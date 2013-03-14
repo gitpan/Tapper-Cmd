@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Testplan::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Testplan::VERSION = '4.1.7';
+  $Tapper::Cmd::Testplan::VERSION = '4.1.8';
 }
 
 use 5.010;
@@ -308,7 +308,7 @@ AMD OSRC Tapper Team <tapper@amd64.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+This software is Copyright (c) 2013 by Advanced Micro Devices, Inc..
 
 This is free software, licensed under:
 

@@ -1,5 +1,16 @@
 Revision history for Tapper-Cmd
 
+4.1.8     2013-03-14
+        - helloworld: example_kernel_install.sh: example installer
+        - helloworld: example_producer_builder.sh: example for builder
+        - helloworld: testplans/*/example03-builder: frontend to testplans/*/local
+        - helloworld: testplans/*/local: allow specifying precondition producers
+        - tapper init: testplans/ subdir now fine-grained
+        - tapper init: provide a subdir for producers
+        - add notifications for new testrun if requested
+        - [TEST] adding notification with testrun
+        - [FIX] API docs: new notifications can not be added as a string
+
 4.1.7     2012-11-27
         - helloworld: add example macroprecondition
         - helloworld: rename subdir 03-controlfiles -> controlfiles

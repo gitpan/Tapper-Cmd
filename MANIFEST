@@ -33,9 +33,11 @@ lib/auto/Tapper/Cmd/Init/hello-world/02-query-api/benchmarks.tt
 lib/auto/Tapper/Cmd/Init/hello-world/02-query-api/hello.mas
 lib/auto/Tapper/Cmd/Init/hello-world/02-query-api/hello.tt
 lib/auto/Tapper/Cmd/Init/hello-world/README.md
+lib/auto/Tapper/Cmd/Init/hello-world/controlfiles/example_kernel_install.sh
 lib/auto/Tapper/Cmd/Init/hello-world/controlfiles/local-start-test.sh
 lib/auto/Tapper/Cmd/Init/hello-world/controlfiles/run-hello-world-tests.sh
 lib/auto/Tapper/Cmd/Init/hello-world/macropreconditions/run-hello-world-tests.mpc
+lib/auto/Tapper/Cmd/Init/hello-world/producers/example_producer_builder.sh
 lib/auto/Tapper/Cmd/Init/hello-world/run-hello-world.sh
 lib/auto/Tapper/Cmd/Init/log4perl.cfg
 lib/auto/Tapper/Cmd/Init/tapper-mcp-messagereceiver.conf
@@ -46,6 +48,7 @@ lib/auto/Tapper/Cmd/Init/testplans/include/distrodetails
 lib/auto/Tapper/Cmd/Init/testplans/topic/any/generic/local
 lib/auto/Tapper/Cmd/Init/testplans/topic/helloworld/example01
 lib/auto/Tapper/Cmd/Init/testplans/topic/helloworld/example02
+lib/auto/Tapper/Cmd/Init/testplans/topic/helloworld/example03-builder
 lib/auto/Tapper/Cmd/Init/testplans/topic/kernel/generic/test
 lib/auto/Tapper/Cmd/Init/testplans/topic/xen/generic/guest-start-template.sh
 lib/auto/Tapper/Cmd/Init/testplans/topic/xen/generic/guest-template.svm

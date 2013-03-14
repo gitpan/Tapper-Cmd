@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Cobbler::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Cobbler::VERSION = '4.1.7';
+  $Tapper::Cmd::Cobbler::VERSION = '4.1.8';
 }
 
 use warnings;
@@ -232,7 +232,7 @@ AMD OSRC Tapper Team <tapper@amd64.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+This software is Copyright (c) 2013 by Advanced Micro Devices, Inc..
 
 This is free software, licensed under:
 

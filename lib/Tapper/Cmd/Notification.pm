@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Cmd::Notification::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Notification::VERSION = '4.1.7';
+  $Tapper::Cmd::Notification::VERSION = '4.1.8';
 }
 use Moose;
 
@@ -135,7 +135,6 @@ Make sure the user is given as user id.
 
 Add a new notification subscription. Expects all details as a hash reference.
 
-@param string    - preconditions in YAML format OR
 @param hash ref  - notification subscrition data
 
 @return success - subscrition id
@@ -188,7 +187,7 @@ AMD OSRC Tapper Team <tapper@amd64.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+This software is Copyright (c) 2013 by Advanced Micro Devices, Inc..
 
 This is free software, licensed under:
 

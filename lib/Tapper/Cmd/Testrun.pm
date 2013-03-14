@@ -3,17 +3,19 @@ BEGIN {
   $Tapper::Cmd::Testrun::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Cmd::Testrun::VERSION = '4.1.7';
+  $Tapper::Cmd::Testrun::VERSION = '4.1.8';
 }
 use Moose;
 use Tapper::Model 'model';
 use DateTime;
 use Perl6::Junction qw/any/;
 use Hash::Merge::Simple qw/merge/;
+use Try::Tiny;
 
 use parent 'Tapper::Cmd';
 use Tapper::Cmd::Requested;
 use Tapper::Cmd::Precondition;
+use Tapper::Cmd::Notification;
 
 
 
@@ -74,7 +76,7 @@ sub create
 
 sub add {
         my ($self, $received_args) = @_;
-        my %args = %{$received_args}; # copy
+        my %args = %{$received_args || {}}; # copy
 
         $args{notes}                 ||= '';
         $args{shortname}             ||= '';
@@ -106,6 +108,25 @@ sub add {
                                          $args{requested_features} : [ $args{requested_features} ]}) {
                         my $request = model('TestrunDB')->resultset('TestrunRequestedFeature')->new({testrun_id => $testrun_id, feature => $feature});
                         $request->insert();
+                }
+        }
+        if ($args{notify}) {
+                my $notify = Tapper::Cmd::Notification->new();
+                my $filter = "testrun('id') == $testrun_id";
+                if (lc $args{notify} eq any('pass', 'ok','success')) {
+                        $filter .= " and testrun('success_word') eq 'pass'";
+                } elsif (lc $args{notify} eq any('fail', 'not_ok','error')) {
+                        $filter .= " and testrun('success_word') eq 'fail'";
+                }
+                try {
+                        $notify->add({filter   => $filter,
+                                      owner_id => $args{owner_id},
+                                      event    => "testrun_finished",
+                                     });
+                } catch {
+                        my $message = "Successfully created your testrun with id $testrun_id but failed to add a notification request\n";
+                        $message   .= "$_\n";
+                        die $message;
                 }
         }
         return $testrun_id;
@@ -292,7 +313,7 @@ AMD OSRC Tapper Team <tapper@amd64.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+This software is Copyright (c) 2013 by Advanced Micro Devices, Inc..
 
 This is free software, licensed under:
 

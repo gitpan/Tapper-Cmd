@@ -8,6 +8,7 @@ use warnings;
 use strict;
 
 use Test::More;
+use Test::Deep;
 use YAML::Syck;
 
 use Tapper::Cmd::Testrun;
@@ -47,6 +48,7 @@ my $testrun_args = {notes     => 'foo',
                                                 minute => 12,
                                                 second => 47),
                     requested_hosts => ['iring','bullock'],
+                    notify          => 'ok',
                     owner           => 'sschwigo'};
 
 my $testrun_id = $cmd->add($testrun_args);
@@ -59,8 +61,18 @@ my $retval = {owner       => $testrun->owner_id,
               earliest    => $testrun->starttime_earliest,
               requested_hosts => [ map {$_->host->name} $testrun->testrun_scheduling->requested_hosts->all ],
              };
+my $notify = model('ReportsDB')->resultset('Notification')->search({},
+                                                                   {  result_class => 'DBIx::Class::ResultClass::HashRefInflator',}
+                                                                  )->first;
+
 $testrun_args->{owner}    =  12;
+delete $testrun_args->{notify};
+
 is_deeply($retval, $testrun_args, 'Values of added test run');
+cmp_deeply($notify, superhashof({event => 'testrun_finished',
+                                 owner_id => 12,
+                                 filter   =>       "testrun('id') == ".$testrun->id." and testrun('success_word') eq 'pass'",
+                                }), 'Values of added test run');
 
 
 #######################################################
@@ -148,6 +160,7 @@ is($testrun->testrun_scheduling->queue->name, 'Kernel', 'Queue set from descript
 $testrun = model('TestrunDB')->resultset('Testrun')->find(shift @testruns);
 is($testrun->testrun_scheduling->requested_features->count, 2, "requested_features_any testrun with two requested features");
 is($testrun->preconditions, 6, "requested_feature_any testrun has preconditions assigned");
+
 
 
 done_testing;
